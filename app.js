@@ -208,8 +208,12 @@ function updateProgress() {
     
     // Update progress bar
     const progress = totalCards > 0 ? ((totalCards - dueCards) / totalCards) * 100 : 0;
-    progressFill.style.width = `${progress}%`;
-    progressText.textContent = `${dueCards} tarjeta${dueCards !== 1 ? 's' : ''} por repasar hoy`;
+    if (window.updateProgressUI) {
+        window.updateProgressUI(progress, dueCards);
+    } else {
+        progressFill.style.width = `${progress}%`;
+        progressText.textContent = `${dueCards} tarjeta${dueCards !== 1 ? 's' : ''} por repasar hoy`;
+    }
 }
 
 // Utility function to shuffle an array
@@ -226,12 +230,14 @@ function loadTheme() {
     const theme = localStorage.getItem('theme') || 'light';
     if (theme === 'dark') {
         document.body.classList.add('dark-mode');
+        document.body.classList.add('dark');
         themeToggleBtn.querySelector('i').classList.replace('fa-moon', 'fa-sun');
     }
 }
 
 function toggleTheme() {
     const isDark = document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('dark', isDark);
     themeToggleBtn.querySelector('i').classList.toggle('fa-sun', isDark);
     themeToggleBtn.querySelector('i').classList.toggle('fa-moon', !isDark);
     localStorage.setItem('theme', isDark ? 'dark' : 'light');

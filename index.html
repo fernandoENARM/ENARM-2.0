@@ -6,6 +6,15 @@
     <title>Repaso Médico</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = { darkMode: 'class' };
+    </script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+    <script src="https://unpkg.com/lucide-react/dist/lucide-react.umd.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
 <body>
     <button id="theme-toggle" class="icon-btn" aria-label="Cambiar modo">
@@ -16,41 +25,9 @@
         <div id="home-screen">
             <header>
                 <h1>Repaso Médico</h1>
-                <div id="progress-container">
-                    <div id="progress-bar">
-                        <div id="progress-fill"></div>
-                    </div>
-                    <div id="progress-text">0/0 tarjetas hoy</div>
-                </div>
             </header>
-            
             <main>
-                <div class="specialty-grid">
-                    <button class="specialty-btn" data-specialty="medicina">
-                        <i class="fas fa-stethoscope"></i>
-                        <span>Medicina Interna</span>
-                    </button>
-                    <button class="specialty-btn" data-specialty="cirugia">
-                        <i class="fas fa-syringe"></i>
-                        <span>Cirugía</span>
-                    </button>
-                    <button class="specialty-btn" data-specialty="pediatria">
-                        <i class="fas fa-baby"></i>
-                        <span>Pediatría</span>
-                    </button>
-                    <button class="specialty-btn" data-specialty="ginecologia">
-                        <i class="fas fa-female"></i>
-                        <span>Ginecología y Obstetricia</span>
-                    </button>
-                    <button class="specialty-btn" data-specialty="atls">
-                        <i class="fas fa-ambulance"></i>
-                        <span>ATLS</span>
-                    </button>
-                    <button class="specialty-btn" data-specialty="acls">
-                        <i class="fas fa-heartbeat"></i>
-                        <span>ACLS</span>
-                    </button>
-                </div>
+                <div id="react-root"></div>
             </main>
         </div>
 
@@ -80,6 +57,70 @@
         </div>
     </div>
 
+    <script type="text/babel" src="src/components/TarjetaEspecialidad.jsx"></script>
+    <script type="text/babel">
+      const { createRoot } = ReactDOM;
+      const { motion } = framerMotion;
+      const { Stethoscope, Syringe, Baby, Venus, Ambulance, HeartPulse } = lucideReact;
+
+      function ProgressBar({ progress, due }) {
+        return (
+          <div id="progress-container" className="px-4">
+            <div id="progress-bar" className="h-2 bg-gray-200 rounded mb-2 dark:bg-gray-700">
+              <motion.div id="progress-fill" className="h-full bg-blue-500" animate={{ width: progress + '%' }} transition={{ duration: 0.5 }} />
+            </div>
+            <div id="progress-text" className="text-sm text-gray-500 dark:text-gray-300">{due} tarjeta{due !== 1 ? 's' : ''} por repasar hoy</div>
+          </div>
+        );
+      }
+
+      function SpecialtyGrid({ onSelect }) {
+        const data = [
+          { key: 'medicina', label: 'Medicina Interna', icon: Stethoscope },
+          { key: 'cirugia', label: 'Cirugía', icon: Syringe },
+          { key: 'pediatria', label: 'Pediatría', icon: Baby },
+          { key: 'ginecologia', label: 'Ginecología y Obstetricia', icon: Venus },
+          { key: 'atls', label: 'ATLS', icon: Ambulance },
+          { key: 'acls', label: 'ACLS', icon: HeartPulse }
+        ];
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 px-4">
+            {data.map(item => (
+              <TarjetaEspecialidad key={item.key} icon={item.icon} label={item.label} onClick={() => onSelect(item.key)} />
+            ))}
+          </div>
+        );
+      }
+
+      function HomeApp() {
+        const [progress, setProgress] = React.useState(0);
+        const [due, setDue] = React.useState(0);
+
+        React.useEffect(() => {
+          window.updateProgressUI = (p, d) => {
+            setProgress(p);
+            setDue(d);
+          };
+        }, []);
+
+        return (
+          <div>
+            <ProgressBar progress={progress} due={due} />
+            {due === 0 ? (
+              <div className="text-center mt-4" id="empty-state">
+                <p>Sin tarjetas hoy</p>
+                <button id="import-button" className="btn mt-2">Importar mazos</button>
+              </div>
+            ) : (
+              <SpecialtyGrid onSelect={startStudySession} />
+            )}
+          </div>
+        );
+      }
+
+      const root = createRoot(document.getElementById('react-root'));
+      root.render(<HomeApp />);
+    </script>
     <script src="app.js" type="module"></script>
 </body>
 </html>

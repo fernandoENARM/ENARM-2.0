@@ -1,0 +1,8 @@
+{
+  "name": "enarm",
+  "version": "1.0.0",
+  "dependencies": {
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.370.0"
+  }
+}
