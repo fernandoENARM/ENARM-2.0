@@ -149,6 +149,13 @@ h1 {
     align-items: center;
     text-align: center;
     position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#flashcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 #question, #answer {
@@ -246,6 +253,10 @@ body.dark-mode .specialty-btn i {
 body.dark-mode #flashcard {
     background: #34495e;
     color: #ecf0f1;
+}
+
+body.dark-mode #flashcard:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 body.dark-mode #progress-bar {
