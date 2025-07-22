@@ -45,6 +45,7 @@ const answerElement = document.getElementById('answer');
 const showAnswerBtn = document.getElementById('show-answer');
 const difficultyButtons = document.querySelectorAll('.difficulty-btn');
 const backToHomeBtn = document.getElementById('back-to-home');
+const themeToggleBtn = document.getElementById('theme-toggle');
 
 // State
 let currentDeck = [];
@@ -56,6 +57,7 @@ let currentSpecialty = '';
 function init() {
     loadDecks();
     setupEventListeners();
+    loadTheme();
     updateProgress();
 }
 
@@ -94,6 +96,9 @@ function setupEventListeners() {
     
     // Back to home button
     backToHomeBtn.addEventListener('click', showHomeScreen);
+
+    // Theme toggle button
+    themeToggleBtn.addEventListener('click', toggleTheme);
 }
 
 // Start a study session for a specific specialty
@@ -214,6 +219,22 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+// Theme handling
+function loadTheme() {
+    const theme = localStorage.getItem('theme') || 'light';
+    if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggleBtn.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.body.classList.toggle('dark-mode');
+    themeToggleBtn.querySelector('i').classList.toggle('fa-sun', isDark);
+    themeToggleBtn.querySelector('i').classList.toggle('fa-moon', !isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
 
 // Sample data (you'll replace this with your actual data)
