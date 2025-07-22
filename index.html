@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Médico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Home Screen -->
+        <div id="home-screen">
+            <header>
+                <h1>Repaso Médico</h1>
+                <div id="progress-container">
+                    <div id="progress-bar">
+                        <div id="progress-fill"></div>
+                    </div>
+                    <div id="progress-text">0/0 tarjetas hoy</div>
+                </div>
+            </header>
+            
+            <main>
+                <div class="specialty-grid">
+                    <button class="specialty-btn" data-specialty="medicina">
+                        <i class="fas fa-stethoscope"></i>
+                        <span>Medicina Interna</span>
+                    </button>
+                    <button class="specialty-btn" data-specialty="cirugia">
+                        <i class="fas fa-syringe"></i>
+                        <span>Cirugía</span>
+                    </button>
+                    <button class="specialty-btn" data-specialty="pediatria">
+                        <i class="fas fa-baby"></i>
+                        <span>Pediatría</span>
+                    </button>
+                    <button class="specialty-btn" data-specialty="ginecologia">
+                        <i class="fas fa-female"></i>
+                        <span>Ginecología y Obstetricia</span>
+                    </button>
+                    <button class="specialty-btn" data-specialty="atls">
+                        <i class="fas fa-ambulance"></i>
+                        <span>ATLS</span>
+                    </button>
+                    <button class="specialty-btn" data-specialty="acls">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>ACLS</span>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Study Screen -->
+        <div id="study-screen" class="hidden">
+            <header>
+                <button id="back-to-home" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div id="progress-indicator">0/0</div>
+            </header>
+            
+            <main>
+                <div id="flashcard">
+                    <div id="question"></div>
+                    <div id="answer" class="hidden"></div>
+                    <button id="show-answer" class="btn">Mostrar respuesta</button>
+                </div>
+                
+                <div id="difficulty-buttons" class="hidden">
+                    <button class="difficulty-btn" data-difficulty="0">Otra vez</button>
+                    <button class="difficulty-btn" data-difficulty="1">Difícil</button>
+                    <button class="difficulty-btn" data-difficulty="2">Bien</button>
+                    <button class="difficulty-btn" data-difficulty="3">Fácil</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js" type="module"></script>
+</body>
+</html>
